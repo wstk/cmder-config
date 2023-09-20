@@ -14,13 +14,7 @@ local function fancy_prompt()
     local cwd = old_prompt:match('.*(.:[^>]*)>')
     if cwd == nil then cwd = clink.get_cwd() end
 
-    -- environment systems like pythons virtualenv change the PROMPT and usually
-    -- set some variable. But the variables are differently named and we would never
-    -- get them all, so try to parse the env name out of the PROMPT.
-    -- envs are usually put in round or square parentheses and before the old prompt
-    local env = old_prompt:match('.*%(([^%)]+)%).+:')
-    -- also check for square brackets
-    if env == nil then env = old_prompt:match('.*%[([^%]]+)%].+:') end
+    
 
 	local me = "will"
 	local host = clink.get_env("COMPUTERNAME")
@@ -29,6 +23,9 @@ local function fancy_prompt()
     cmder_prompt = string.gsub(cmder_prompt, "{cwd}", filters.verbatim(cwd))
 	cmder_prompt = string.gsub(cmder_prompt, "{me}", filters.verbatim(me))
 	cmder_prompt = string.gsub(cmder_prompt, "{host}", filters.verbatim(host))
+
+    -- Mostly will use Virtualenv which sets TARGET to `venv-name` 
+    local env = clink.get_env("TARGET")
 
     if env ~= nil then
         venvinfo = "("..env..") "
