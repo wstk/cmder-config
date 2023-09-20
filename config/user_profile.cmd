@@ -18,5 +18,4 @@
 
 @echo off
 
-set "PATH=%PATH%;c:\dev\scripts;c:\dev\vem;
-cls
+
