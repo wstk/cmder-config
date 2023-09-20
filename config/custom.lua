@@ -24,15 +24,17 @@ local function fancy_prompt()
 	cmder_prompt = string.gsub(cmder_prompt, "{me}", filters.verbatim(me))
 	cmder_prompt = string.gsub(cmder_prompt, "{host}", filters.verbatim(host))
 
-    -- Mostly will use Virtualenv which sets TARGET to `venv-name` 
-    local env = clink.get_env("TARGET")
-
-    if env ~= nil then
-        venvinfo = "("..env..") "
-    else
-        venvinfo = ""
+    -- Mostly will use Virtualenv so we can use a couple of know environment variables
+    -- to determine the name of the VENV
+    local env_name = ""
+    if clink.get_env("_OLD_VIRTUAL_PROMPT") then
+        -- This tells us a VirtualEnv environment is active
+        -- To get the name of the environment, pull out the final part of the path string
+        local env_path = clink.get_env("VIRTUAL_ENV")
+        env_name = "(" ..string.match(env_path, "[^\\(.*)]+$").. ") "
     end
-    clink.prompt.value = string.gsub(cmder_prompt, "{venvinfo}", filters.verbatim(venvinfo))
+
+    clink.prompt.value = string.gsub(cmder_prompt, "{venvinfo}", filters.verbatim(env_name))
 end
 
 
