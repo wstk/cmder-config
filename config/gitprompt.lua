@@ -113,7 +113,7 @@ function gitprompt.git_prompt_filter()
             end
 
             if numConflicts > 0 then
-                table.insert(fileStatusMessages, numConflictsFiles .." CONFLICTS")
+                table.insert(fileStatusMessages, numConflicts .." CONFLICTS")
             end
             
             local message = "CLEAN"
